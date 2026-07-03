@@ -28,20 +28,22 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' })
 })
 
-// Auto-run migrations and seed on startup (production only)
+// Auto-run migrations and seed on startup
 async function setupDatabase() {
   try {
-    console.log('Running database setup...')
+    console.log('[setup] Running prisma db push...')
     execSync('npx prisma db push --skip-generate', { stdio: 'inherit', cwd: process.cwd() })
-    console.log('Database tables synced.')
-    try {
-      execSync('npx prisma db seed', { stdio: 'inherit', cwd: process.cwd() })
-      console.log('Database seeded.')
-    } catch {
-      console.log('Seed skipped (data may already exist).')
-    }
+    console.log('[setup] Tables synced.')
   } catch (err) {
-    console.error('Database setup failed:', err.message)
+    console.error('[setup] db push failed:', err.message)
+    return
+  }
+  try {
+    console.log('[setup] Running seed...')
+    execSync('npx prisma db seed', { stdio: 'inherit', cwd: process.cwd() })
+    console.log('[setup] Seed complete.')
+  } catch {
+    console.log('[setup] Seed skipped.')
   }
 }
 
