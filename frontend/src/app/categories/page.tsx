@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { fetchCategories } from '@/lib/api'
 
+export const dynamic = 'force-dynamic'
+
 export default async function CategoriesPage() {
   let categories: any[] = []
 

@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+const rawUrl = process.env.NEXT_PUBLIC_API_URL || 'localhost:3001'
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}/api`
 
 export async function fetchTools(params?: {
   search?: string

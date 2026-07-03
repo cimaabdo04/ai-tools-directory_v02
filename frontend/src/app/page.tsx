@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Search, Sparkles, ArrowRight, Grid3X3, Users, MessageSquare, Star } from 'lucide-react'
+
+export const dynamic = 'force-dynamic'
 import ToolCard from '@/components/ToolCard'
 import CategoryCard from '@/components/CategoryCard'
 import { fetchFeaturedTools, fetchPopularTools, fetchNewestTools, fetchCategories } from '@/lib/api'

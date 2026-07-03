@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Search, Filter, X } from 'lucide-react'
 import ToolCard from '@/components/ToolCard'
@@ -30,6 +30,14 @@ interface Category {
 }
 
 export default function ToolsPage() {
+  return (
+    <Suspense fallback={<ToolsPageSkeleton />}>
+      <ToolsPageContent />
+    </Suspense>
+  )
+}
+
+function ToolsPageContent() {
   const searchParams = useSearchParams()
   const [tools, setTools] = useState<Tool[]>([])
   const [categories, setCategories] = useState<Category[]>([])
@@ -220,6 +228,35 @@ export default function ToolsPage() {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+function ToolsPageSkeleton() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b">
+        <div className="container mx-auto px-4 py-12">
+          <div className="h-10 w-64 bg-gray-200 rounded mb-4" />
+          <div className="h-6 w-96 bg-gray-200 rounded" />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-xl border p-6 mb-8">
+          <div className="h-12 bg-gray-200 rounded" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl border p-6 animate-pulse">
+              <div className="h-12 w-12 rounded-lg bg-gray-200 mb-4" />
+              <div className="h-6 w-32 bg-gray-200 rounded mb-2" />
+              <div className="h-4 w-full bg-gray-200 rounded mb-4" />
+              <div className="h-4 w-2/3 bg-gray-200 rounded" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
