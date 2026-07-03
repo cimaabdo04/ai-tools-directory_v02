@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "node src/index.js",
-    "seed": "node prisma/seed.js"
+    "start": "node src/index.js",
+    "seed": "node prisma/seed.js",
+    "build": "npx prisma generate",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "cors": "^2.8.5",
