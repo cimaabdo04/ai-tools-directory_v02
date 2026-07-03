@@ -1,9 +1,8 @@
-# Render Blueprint
+# Render Blueprint — Backend only (Frontend on Vercel)
 
 services:
-  # ============ Backend API (Express + Prisma) ============
   - type: web
-    name: ai-tools-backend
+    name: ai-tools-directory-api
     env: node
     region: frankfurt
     plan: free
@@ -16,18 +15,5 @@ services:
         value: production
       - key: DATABASE_URL
         sync: false
-
-  # ============ Frontend (Next.js) ============
-  - type: web
-    name: ai-tools-frontend
-    env: node
-    region: frankfurt
-    plan: free
-    rootDir: frontend
-    buildCommand: npm install --include=dev && npm run build
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: NEXT_PUBLIC_API_URL
-        sync: false
+      - key: PORT
+        value: 3001
