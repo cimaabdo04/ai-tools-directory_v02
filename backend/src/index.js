@@ -1,4 +1,3 @@
-import { execSync } from 'child_process'
 import express from 'express'
 import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
@@ -28,28 +27,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' })
 })
 
-// Auto-run migrations and seed on startup
-async function setupDatabase() {
-  try {
-    console.log('[setup] Running prisma db push...')
-    execSync('npx prisma db push --skip-generate', { stdio: 'inherit', cwd: process.cwd() })
-    console.log('[setup] Tables synced.')
-  } catch (err) {
-    console.error('[setup] db push failed:', err.message)
-    return
-  }
-  try {
-    console.log('[setup] Running seed...')
-    execSync('npx prisma db seed', { stdio: 'inherit', cwd: process.cwd() })
-    console.log('[setup] Seed complete.')
-  } catch {
-    console.log('[setup] Seed skipped.')
-  }
-}
-
 // Start server
-app.listen(PORT, async () => {
-  await setupDatabase()
+app.listen(PORT, () => {
   console.log(`🚀 Backend server running on http://localhost:${PORT}`)
   console.log(`📚 API endpoints:`)
   console.log(`   GET  /api/health`)
