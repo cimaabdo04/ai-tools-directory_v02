@@ -30,7 +30,4 @@ services:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          name: ai-tools-backend
-          type: web
-          property: host
+        sync: false
