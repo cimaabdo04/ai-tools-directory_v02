@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(100)
+  description String?  @db.Text
+  icon        String?  @db.VarChar(50)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tools       Tool[]
+}
+
+model Tool {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(200)
+  slug        String   @unique @db.VarChar(200)
+  description String   @db.Text
+  longDescription String? @db.Text
+  websiteUrl  String   @db.VarChar(500)
+  logoUrl     String?  @db.VarChar(500)
+  pricing     String   @default("free") // free, freemium, paid
+  featured    Boolean  @default(false)
+  popularity  Int      @default(0)
+  pricingDetails String?
+  keyFeatures String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+}
